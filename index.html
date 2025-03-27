@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔄</text></svg>">
+    <title>Page Replacement Simulator</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <link href="style.css" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+    <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Theme">🔆</button>
+
+    <div class="wrapper">
+        <div class="container">
+            <div class="header">
+                <h2>🔄 Page Replacement Simulator</h2>
+                <p>Compare FIFO, LRU, and Optimal algorithms with visual results</p>
+            </div>
+
+            <div class="input-group">
+                <label for="pages">Reference String (comma-separated):</label>
+                <div class="input-with-button">
+                    <input type="text" id="pages" placeholder="e.g., 7, 0, 1, 2, 0, 3, 4, 2, 3, 0" />
+                    <button class="random-btn" onclick="generateRandomString()">Random</button>
+                </div>
+                <label for="frames">Number of Frames:</label>
+                <input type="number" id="frames" min="1" max="10" value="3" />
+                <button class="submit-btn" onclick="runSimulation()">Run Simulation</button>
+            </div>
+
+            <div id="output" style="display:none;">
+                <div class="results-container" id="results-container"></div>
+
+                <div class="chart-container">
+                    <h3>📈 Algorithm Performance Comparison</h3>
+                    <div style="height: 350px;">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="steps-container" id="steps-container"></div>
+            </div>
+        </div>
+
+        <div class="explanation-section">
+            <h3>Page Replacement Algorithms Explained</h3>
+
+            <div class="algorithm-info">
+                <h4>What are Page Replacement Algorithms?</h4>
+                <p>
+                    In modern operating systems, virtual memory allows a system to run programs exceeding the physical
+                    memory (RAM) size. Virtual memory is implemented through paging, where a process's address space is
+                    divided into fixed-size pages that are loaded into frames as needed. When memory is full, a decision is
+                    made about which page to remove using page replacement algorithms.
+                </p>
+            </div>
+
+            <div class="algorithm-info">
+                <h4>Real Life Analogy</h4>
+                <p>
+                    Imagine you have a small bookshelf with limited space. When you get a new book and the shelf is full,
+                    you must decide which book to remove. Page replacement algorithms solve a similar problem for the
+                    operating system.
+                </p>
+            </div>
+
+            <div class="algorithm-info">
+                <h4>Algorithms Overview</h4>
+                <div class="algorithm-details">
+                    <h5>1. FIFO (First-In-First-Out)</h5>
+                    <p>
+                        FIFO maintains a queue of pages. When a new page is needed and memory is full, the oldest page is
+                        removed.
+                    </p>
+                    <ul>
+                        <li><strong>Advantages:</strong> Simple and easy to implement.</li>
+                        <li><strong>Disadvantages:</strong> May remove a frequently used page (Belady's anomaly).</li>
+                    </ul>
+
+                    <h5>2. LRU (Least Recently Used)</h5>
+                    <p>
+                        LRU evicts the page not used for the longest time, assuming recently used pages are likely to be
+                        used again.
+                    </p>
+                    <ul>
+                        <li><strong>Advantages:</strong> Generally performs well in practice.</li>
+                        <li><strong>Disadvantages:</strong> Requires extra overhead to track page usage.</li>
+                    </ul>
+
+                    <h5>3. Optimal Page Replacement</h5>
+                    <p>
+                        Optimal predicts which page won't be needed for the longest time in the future, resulting in the
+                        fewest page faults.
+                    </p>
+                    <ul>
+                        <li><strong>Advantages:</strong> The best theoretical performance.</li>
+                        <li><strong>Disadvantages:</strong> Requires future knowledge of page requests, making it
+                            impractical.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="algorithm-info">
+                <h4>Key Terms</h4>
+                <p>
+                    <strong>Page Fault:</strong> Occurs when a requested page is not in memory.<br />
+                    <strong>Page Hit:</strong> Occurs when a requested page is already loaded in memory.<br />
+                    <strong>Hit Ratio:</strong> <code>(Hits / Total Requests) × 100%</code>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
